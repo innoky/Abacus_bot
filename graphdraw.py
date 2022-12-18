@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os.path
 import numpy as np
 x = np.linspace(-5,5,100)
-y=x**2-4
+y=x**2
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
 ax.spines['left'].set_position('center')
@@ -17,4 +17,4 @@ ax.yaxis.set_ticks_position('left')
 plt.plot(x,y, 'r')
 
 # show the plot
-plt.savefig('/home/innoky/Documents/hsbot/HSBOT 2.0/graphs/graphdraw.png')
+plt.savefig('graphs/graphdraw.png')

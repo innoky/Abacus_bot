@@ -19,7 +19,7 @@ from telebot import types
 
 
 go = "hi"
-bot = telebot.TeleBot('5654797665:AAGHtXeh2hew8L8bZvvfXNyiOBiF9bIikog')
+bot = telebot.TeleBot('5900150945:AAEILo4cgaVVO2rsdE9qUlB5ypM0t47-nrQ')
 
 @bot.message_handler(commands=['start'])
 
@@ -33,14 +33,9 @@ def welcome(message):
 
 
     # keyboard (Создание кнопок и приветствие)
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    item1 = types.KeyboardButton("Помощь")
-    item2 = types.KeyboardButton("Сообщить об ошибке")
 
-    markup.add(item1, item2)
-
-    bot.send_message(message.chat.id, "Добро пожаловать, {0.first_name}!\nЯ - <b>{1.first_name}</b>, телеграмм бот от HS university! Мой функционал основывается на технологиях wolfram research, но в будущем мы собираемся перейти на свой язык программирования. Нажми «Помощь» чтобы узнать больше о моих возможностях.".format(message.from_user, bot.get_me()),
-        parse_mode='html', reply_markup=markup)
+    bot.send_message(message.chat.id, 'Добро пожаловать, {0.first_name}!\nЯ - <b>{1.first_name}</b>, телеграмм бот от HS university!  Отправь мне какое нибудь математическое выражение вида "y=...".'.format(message.from_user, bot.get_me()),
+        parse_mode='html')
 
 @bot.message_handler(content_types=['text'])
 
@@ -63,16 +58,14 @@ def lalala(message):
             item4 = types.InlineKeyboardButton("Найти производную", callback_data='4')
 
             markup.add(item1, item2, item3, item4)
-
             bot.send_message(message.chat.id, get_message, reply_markup=markup)
 
-        # elif message.text == ' '
-        elif message.text == "Посчитать интеграл":
-            bot.send_message(message.chat.id, "i")
-
-
+        elif message.text == "Помощь" or "/help":
+            bot.send_message(message.chat.id, "Я не знаю такой команды")
+        elif message.text == "/error" or "Сообщить об ошибке":
+            bot.send_message(message.chat.id, "Нашли ошибку, напишите нам @herzogw")
         else:
-            bot.send_message(message.chat.id, "ушел в else")
+            bot.send_message(message.chat.id, "Пока что я не умею воспринимать произвольный текст")
 #---------------------------------------------------------------------------
 #отрисовка графика
 #нижний предел интеграла
@@ -143,12 +136,12 @@ ax.yaxis.set_ticks_position('left')
 plt.plot(x,y, 'r')
 
 # show the plot
-plt.savefig('/home/innoky/Documents/hsbot/HSBOT 2.0/graphs/graphdraw.png')
+plt.savefig('graphs/graphdraw.png')
 ''')
                 os.system("python3 graphdraw.py")
                 bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="График вашей функции:",
                     reply_markup=None)
-                bot.send_photo(call.message.chat.id, open('/home/innoky/Documents/hsbot/HSBOT 2.0/graphs/graphdraw.png', 'rb'));
+                bot.send_photo(call.message.chat.id, open('graphs/graphdraw.png', 'rb'));
 
             elif call.data == '3':
                 bot.send_message(call.message.chat.id, '')
@@ -157,7 +150,7 @@ plt.savefig('/home/innoky/Documents/hsbot/HSBOT 2.0/graphs/graphdraw.png')
 
             # show alert
             bot.answer_callback_query(callback_query_id=call.id, show_alert=False,
-                text="Пишите, всегда поможем!")
+                text="HS Abacus")
 
     except Exception as e:
         print(repr(e))
