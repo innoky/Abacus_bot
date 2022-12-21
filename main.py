@@ -1,5 +1,4 @@
 #---------------------------------------------------------------------------
-
 import time
 import random
 import os
@@ -8,6 +7,8 @@ import sys
 import os.path
 import numpy as np
 
+from sympy.solvers import solve
+from sympy import Symbol
 
 import telebot
 
@@ -144,7 +145,12 @@ plt.savefig('graphs/graphdraw.png')
                 bot.send_photo(call.message.chat.id, open('graphs/graphdraw.png', 'rb'));
 
             elif call.data == '3':
-                bot.send_message(call.message.chat.id, '')
+                clear_equat = get_message.replace("y=", "")
+                x = Symbol('x')
+                send_data_arr = solve(clear_equat, x)
+                send_data = '\n'.join(str(value) for value in send_data_arr)
+                bot.send_message(call.message.chat.id, send_data.replace("sqrt", "√").replace("**","^"))
+
             elif call.data == '4':
                 bot.send_message(call.message.chat.id, '')
 

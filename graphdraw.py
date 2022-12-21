@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os.path
 import numpy as np
 x = np.linspace(-5,5,100)
-y=x**2
+y=x**2-2
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
 ax.spines['left'].set_position('center')
