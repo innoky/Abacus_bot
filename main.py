@@ -59,7 +59,7 @@ def lalala(message):
             item4 = types.InlineKeyboardButton("Найти производную", callback_data='4')
 
             markup.add(item1, item2, item3, item4)
-            bot.send_message(message.chat.id, get_message, reply_markup=markup)
+            bot.send_message(message.chat.id, f"<code>{get_message}</code>", parse_mode='html', reply_markup=markup)
 
         elif message.text == "Помощь" or "/help":
             bot.send_message(message.chat.id, "Я не знаю такой команды")
@@ -89,8 +89,8 @@ def upp_lim(message, plus_high):
     with open("int_out.txt", "r") as file:
         for line in file:
             text1 = str(line)
-    bot.send_message(message.chat.id, "Ваш интеграл равен:")
-    bot.send_message(message.chat.id, text1)
+    bot.send_message(message.chat.id, "Ваш интеграл равен ~ ")
+    bot.send_message(message.chat.id, round(float(text1), 2), parse_mode = "html")
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
@@ -140,7 +140,7 @@ plt.plot(x,y, 'r')
 plt.savefig('graphs/graphdraw.png')
 ''')
                 os.system("python3 graphdraw.py")
-                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="График вашей функции:",
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="<code>График вашей функции:</code>", parse_mode = "html",
                     reply_markup=None)
                 bot.send_photo(call.message.chat.id, open('graphs/graphdraw.png', 'rb'));
 
@@ -156,7 +156,7 @@ plt.savefig('graphs/graphdraw.png')
 
             # show alert
             bot.answer_callback_query(callback_query_id=call.id, show_alert=False,
-                text="HS Abacus")
+                text="HS Abacus =)")
 
     except Exception as e:
         print(repr(e))
