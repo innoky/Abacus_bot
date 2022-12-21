@@ -149,6 +149,12 @@ plt.savefig('graphs/graphdraw.png')
                 x = Symbol('x')
                 send_data_arr = solve(clear_equat, x)
                 send_data = '\n'.join(str(value) for value in send_data_arr)
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Корни, где же они...",
+                    reply_markup=None)
+                time.sleep(1)
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Ищем...",
+                    reply_markup=None)
+                time.sleep(1)
                 bot.send_message(call.message.chat.id, send_data.replace("sqrt", "√").replace("**","^"))
 
             elif call.data == '4':
