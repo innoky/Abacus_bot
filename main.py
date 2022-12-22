@@ -161,22 +161,37 @@ except SyntaxError:
                 clear_equat = ("y" + get_message.replace("^", "**").replace("y(x)", "").replace("y", "")).replace("y=", "")
                 x = Symbol('x')
                 send_data_arr = solve(clear_equat, x)
-                send_data = '\n'.join(str(value) for value in send_data_arr)
+                send_data = '\n'.join("x = " + str(value) for value in send_data_arr).replace("sqrt", "√")
                 bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Корни, где же они...",
                     reply_markup=None)
                 time.sleep(1)
                 bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Ищем...",
                     reply_markup=None)
-                if send_data == "" :
-                    bot.send_message(call.message.chat.id, "Кажется корней нет")
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Вот что мы нашли",
+                    reply_markup=None)
+                if send_data == "":
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Корни отсутвуют",
+                        reply_markup=None)
+                elif "I" in send_data:
+                    markup_com = types.InlineKeyboardMarkup(row_width=1)
+                    item5 = types.InlineKeyboardButton("Показать", callback_data='5')
+                    markup_com.add(item5)
+                    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Действительные корни отсутвуют, показать комплексные?",
+                        reply_markup=markup_com)
                 else:
-                    bot.send_message(call.message.chat.id, send_data.replace("sqrt", "√").replace("**","^"))
+                    bot.send_message(call.message.chat.id, send_data)
 
             elif call.data == '4':
                 bot.send_message(call.message.chat.id, 'Пока что эта функция в разработке!')
 
-
-
+            elif call.data == '5':
+                clear_equat = ("y" + get_message.replace("^", "**").replace("y(x)", "").replace("y", "")).replace("y=", "")
+                x = Symbol('x')
+                send_data_arr = solve(clear_equat, x)
+                send_data = '\n'.join("x = " + str(value) for value in send_data_arr).replace("sqrt", "√")
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Вот что мы нашли",
+                    reply_markup=None)
+                bot.send_message(call.message.chat.id, send_data)
     except Exception as e:
         print(repr(e))
 
