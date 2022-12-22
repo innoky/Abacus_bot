@@ -19,7 +19,6 @@ from telebot import types
 #---------------------------------------------------------------------------
 
 
-go = "hi"
 bot = telebot.TeleBot('5900150945:AAEILo4cgaVVO2rsdE9qUlB5ypM0t47-nrQ')
 
 @bot.message_handler(commands=['start'])
@@ -35,7 +34,7 @@ def welcome(message):
 
     # keyboard (Создание кнопок и приветствие)
 
-    bot.send_message(message.chat.id, 'Добро пожаловать, {0.first_name}!\nЯ - <b>{1.first_name}</b>, телеграмм бот от HS university!  Отправь мне какое нибудь математическое выражение вида "y=...".'.format(message.from_user, bot.get_me()),
+    bot.send_message(message.chat.id, 'Добро пожаловать, {0.first_name}!\nЯ - <b>{1.first_name}</b>, телеграмм бот HS Abacus!  Отправьте мне функцию вида y=x (Например y=x^2-six(x))'.format(message.from_user, bot.get_me()),
         parse_mode='html')
 
 @bot.message_handler(content_types=['text'])
@@ -48,9 +47,9 @@ def welcome(message):
 
 def lalala(message):
     if message.chat.type == 'private':
-        if "x" in message.text:
+        if "y" or "x" or "y(x)" in message.text:
             global get_message
-            get_message = message.text
+            get_message = message.text.lower().replace(" ","")
  			# keyboard (Создание кнопок под текстом)
             markup = types.InlineKeyboardMarkup(row_width=2)
             item1 = types.InlineKeyboardButton("Посчитать интеграл", callback_data='1')
@@ -113,7 +112,7 @@ def callback_inline(call):
                 bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Отправляем график...",
                     reply_markup=None)
                 get_sub = get_message
-                clear_graph1 = get_sub.replace("^", "**")
+                clear_graph1 = "y" + get_sub.replace("^", "**").replace("y(x)", "").replace("y", "")
                 with open("graphdraw.py", "w") as file:
                     file.write(
 '''
@@ -123,21 +122,32 @@ import os.path
 import numpy as np
 x = np.linspace(-5,5,100)
 '''
-+ clear_graph1 +
++ f"{clear_graph1}\n" + f"checker='{clear_graph1}'" +
 '''
-fig = plt.figure()
-ax = fig.add_subplot(1, 1, 1)
-ax.spines['left'].set_position('center')
-ax.spines['bottom'].set_position('zero')
-ax.spines['right'].set_color('none')
-ax.spines['top'].set_color('none')
-ax.xaxis.set_ticks_position('bottom')
-ax.yaxis.set_ticks_position('left')
-# plot the function
-plt.plot(x,y, 'r')
-
-# show the plot
-plt.savefig('graphs/graphdraw.png')
+if "x" in checker:
+    fig = plt.figure()
+    ax = fig.add_subplot(1, 1, 1)
+    ax.spines['left'].set_position('center')
+    ax.spines['bottom'].set_position('zero')
+    ax.spines['right'].set_color('none')
+    ax.spines['top'].set_color('none')
+    ax.xaxis.set_ticks_position('bottom')
+    ax.yaxis.set_ticks_position('left')
+    # plot the function
+    plt.plot(x,y, 'r')
+    plt.savefig('graphs/graphdraw.png')
+else:
+    fig = plt.figure()
+    ax = fig.add_subplot(1, 1, 1)
+    ax.spines['left'].set_position('center')
+    ax.spines['bottom'].set_position('zero')
+    ax.spines['right'].set_color('none')
+    ax.spines['top'].set_color('none')
+    ax.xaxis.set_ticks_position('bottom')
+    ax.yaxis.set_ticks_position('left')
+    # plot the function
+    plt.plot([y, y, y, y])
+    plt.savefig('graphs/graphdraw.png')
 ''')
                 os.system("python3 graphdraw.py")
                 bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="<code>График вашей функции:</code>", parse_mode = "html",
@@ -154,15 +164,15 @@ plt.savefig('graphs/graphdraw.png')
                 time.sleep(1)
                 bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Ищем...",
                     reply_markup=None)
-                time.sleep(1)
-                bot.send_message(call.message.chat.id, send_data.replace("sqrt", "√").replace("**","^"))
+                if send_data == "" :
+                    bot.send_message(call.message.chat.id, "Кажется корней нет")
+                else:
+                    bot.send_message(call.message.chat.id, send_data.replace("sqrt", "√").replace("**","^"))
 
             elif call.data == '4':
-                bot.send_message(call.message.chat.id, '')
+                bot.send_message(call.message.chat.id, 'Пока что эта функция в разработке!')
 
-            # show alert
-            bot.answer_callback_query(callback_query_id=call.id, show_alert=False,
-                text="HS Abacus =)")
+
 
     except Exception as e:
         print(repr(e))
