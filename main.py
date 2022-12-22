@@ -99,7 +99,7 @@ def callback_inline(call):
             if call.data == '1':
                 msg = bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Введите нижний предел интегрирования",
                     reply_markup=None)
-                plus_low = get_message
+                plus_low = "y" + get_message.replace("^", "**").replace("y(x)", "").replace("y", "")
                 bot.register_next_step_handler(msg, lower_lim, plus_low)
 
             elif call.data == '2':
@@ -112,7 +112,7 @@ def callback_inline(call):
                 bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Отправляем график...",
                     reply_markup=None)
                 get_sub = get_message
-                clear_graph1 = "y" + get_sub.replace("^", "**").replace("y(x)", "").replace("y", "")
+                clear_graph1 = "y" + get_message.replace("^", "**").replace("y(x)", "").replace("y", "")
                 with open("graphdraw.py", "w") as file:
                     file.write(
 '''
@@ -124,30 +124,33 @@ x = np.linspace(-5,5,100)
 '''
 + f"{clear_graph1}\n" + f"checker='{clear_graph1}'" +
 '''
-if "x" in checker:
-    fig = plt.figure()
-    ax = fig.add_subplot(1, 1, 1)
-    ax.spines['left'].set_position('center')
-    ax.spines['bottom'].set_position('zero')
-    ax.spines['right'].set_color('none')
-    ax.spines['top'].set_color('none')
-    ax.xaxis.set_ticks_position('bottom')
-    ax.yaxis.set_ticks_position('left')
-    # plot the function
-    plt.plot(x,y, 'r')
-    plt.savefig('graphs/graphdraw.png')
-else:
-    fig = plt.figure()
-    ax = fig.add_subplot(1, 1, 1)
-    ax.spines['left'].set_position('center')
-    ax.spines['bottom'].set_position('zero')
-    ax.spines['right'].set_color('none')
-    ax.spines['top'].set_color('none')
-    ax.xaxis.set_ticks_position('bottom')
-    ax.yaxis.set_ticks_position('left')
-    # plot the function
-    plt.plot([y, y, y, y])
-    plt.savefig('graphs/graphdraw.png')
+try:
+    if "x" in checker:
+        fig = plt.figure()
+        ax = fig.add_subplot(1, 1, 1)
+        ax.spines['left'].set_position('center')
+        ax.spines['bottom'].set_position('zero')
+        ax.spines['right'].set_color('none')
+        ax.spines['top'].set_color('none')
+        ax.xaxis.set_ticks_position('bottom')
+        ax.yaxis.set_ticks_position('left')
+        # plot the function
+        plt.plot(x,y, 'r')
+        plt.savefig('graphs/graphdraw.png')
+    else:
+        fig = plt.figure()
+        ax = fig.add_subplot(1, 1, 1)
+        ax.spines['left'].set_position('center')
+        ax.spines['bottom'].set_position('zero')
+        ax.spines['right'].set_color('none')
+        ax.spines['top'].set_color('none')
+        ax.xaxis.set_ticks_position('bottom')
+        ax.yaxis.set_ticks_position('left')
+        # plot the function
+        plt.plot([y, y, y, y])
+        plt.savefig('graphs/graphdraw.png')
+except SyntaxError:
+    os.remove("graphs/graphdraw.png")
 ''')
                 os.system("python3 graphdraw.py")
                 bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="<code>График вашей функции:</code>", parse_mode = "html",
@@ -155,7 +158,7 @@ else:
                 bot.send_photo(call.message.chat.id, open('graphs/graphdraw.png', 'rb'));
 
             elif call.data == '3':
-                clear_equat = get_message.replace("y=", "")
+                clear_equat = ("y" + get_message.replace("^", "**").replace("y(x)", "").replace("y", "")).replace("y=", "")
                 x = Symbol('x')
                 send_data_arr = solve(clear_equat, x)
                 send_data = '\n'.join(str(value) for value in send_data_arr)

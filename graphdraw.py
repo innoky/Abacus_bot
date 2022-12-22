@@ -4,8 +4,9 @@ import matplotlib.pyplot as plt
 import os.path
 import numpy as np
 x = np.linspace(-5,5,100)
-yу=3
-checker='yу=3'
+y=728*x+8
+checker='y=728*x+8'
+
 if "x" in checker:
     fig = plt.figure()
     ax = fig.add_subplot(1, 1, 1)
