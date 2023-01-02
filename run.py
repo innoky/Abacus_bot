@@ -207,10 +207,10 @@ def photo(message):
 
     with open("image.jpg", 'wb') as new_file:
         new_file.write(downloaded_file)
-    im1 = Image.open('/home/innoky/Documents/hsbot/HSBOT 2.0/SimpleHTR/src/image.jpg')
-    im1.save(r'/home/innoky/Documents/hsbot/HSBOT 2.0/SimpleHTR/src/image.png')
+    im1 = Image.open('image.jpg')
+    im1.save('image.png')
     os.system('python3 main.py --img_file image.png')
-    with open("/home/innoky/Documents/hsbot/HSBOT 2.0/SimpleHTR/src/recog.txt", "r") as file:
+    with open("recog.txt", "r") as file:
         for line in file:
             text1 = str(line)
     bot.send_message(message.chat.id, text1.replace(",", ""))
