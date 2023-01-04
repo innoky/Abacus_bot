@@ -195,27 +195,7 @@ except SyntaxError:
                 bot.send_message(call.message.chat.id, send_data)
     except Exception as e:
         print(repr(e))
-
-@bot.message_handler(content_types=['photo'])
-def photo(message):
-    print ('message.photo =', message.photo)
-    fileID = message.photo[-1].file_id
-    print ('fileID =', fileID)
-    file_info = bot.get_file(fileID)
-    print ('file.file_path =', file_info.file_path)
-    downloaded_file = bot.download_file(file_info.file_path)
-
-    with open("image.jpg", 'wb') as new_file:
-        new_file.write(downloaded_file)
-    im1 = Image.open('/home/innoky/Documents/hsbot/HSBOT 2.0/image.jpg')
-    im1.save(r'/home/innoky/Documents/hsbot/HSBOT 2.0/SimpleHTR/src/image.png')
-    os.system('python3 main.py --img_file ../data/image.png')
-    time.sleep(2)
-    with open("/home/innoky/Documents/hsbot/SimpleHTR/src/recog.txt", "r") as file:
-        for line in file:
-            text1 = str(line)
-    bot.send_message(message.chat.id, text1)
-#---------------------------------------------------------------------------
+-----------------------------
 
 
 # Старт
