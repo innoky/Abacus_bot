@@ -34,4 +34,4 @@ python3 main.py
 ## Demo
 
 
-![](https://raw.githubusercontent.com/innoky/AbacusPix/main/doc_2023-01-04_23-40-10.mp4)
+![](https://github.com/innoky/Abacus_bot/blob/main/doc_2023-01-04_23-40-10.mp4)
