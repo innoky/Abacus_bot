@@ -20,7 +20,7 @@ from telebot import types
 #---------------------------------------------------------------------------
 
 
-bot = telebot.TeleBot('5900150945:AAEILo4cgaVVO2rsdE9qUlB5ypM0t47-nrQ')
+bot = telebot.TeleBot('Ha-ha, you`ve tried to steal my token')
 
 @bot.message_handler(commands=['start'])
 
