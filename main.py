@@ -20,7 +20,7 @@ from telebot import types
 #---------------------------------------------------------------------------
 
 
-bot = telebot.TeleBot('Ha-ha, you`ve tried to steal my token')
+bot = telebot.TeleBot('5900150945:AAEILo4cgaVVO2rsdE9qUlB5ypM0t47-nrQ')
 
 @bot.message_handler(commands=['start'])
 
@@ -51,6 +51,10 @@ def lalala(message):
         if "y" or "x" or "y(x)" in message.text:
             global get_message
             get_message = message.text.lower().replace(" ","")
+            get_message = get_message.replace("0x", "0*x").replace("1x", "1*x").replace("2x", "2*x").replace("3x", "3*x").replace("4x", "4*x").replace("5x", "5*x").replace("6x", "6*x").replace("7x", "7*x").replace("8x", "8*x").replace("9x", "9*x")
+            get_message = get_message.replace("0(","0*(").replace("1(","1*(").replace("2(","2*(").replace("3(","3*(").replace("4(","4*(").replace("5(","5*(").replace("6(","6*(").replace("7(","7*(").replace("8(","8*(").replace("9(","9*(")
+            get_message = get_message.replace(")(",")*(").replace("x(","x*(")
+
  			# keyboard (Создание кнопок под текстом)
             markup = types.InlineKeyboardMarkup(row_width=2)
             item1 = types.InlineKeyboardButton("Посчитать интеграл", callback_data='1')
@@ -195,7 +199,7 @@ except SyntaxError:
                 bot.send_message(call.message.chat.id, send_data)
     except Exception as e:
         print(repr(e))
------------------------------
+
 
 
 # Старт
